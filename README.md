@@ -17,8 +17,8 @@ Before you begin, ensure you have the following installed:
 1.  **Clone the Repository (if applicable):**
 
     ```bash
-    git clone <repository_url>
-    cd phonebook-application
+    git clone https://github.com/BaldracchiJonas/Contact-FullStack-Jonas-Baldracchi
+    cd Contact-FullStack-Jonas-Baldracchi
     ```
 
 2.  **Install PHP Dependencies:**
@@ -46,19 +46,6 @@ Before you begin, ensure you have the following installed:
     ```
 
 6.  **Database Configuration (SQLite):**
-
-    * Open the `.env` file and configure your database settings for SQLite:
-
-        ```dotenv
-        DB_CONNECTION=sqlite
-        DB_DATABASE=database/database.sqlite
-        ```
-
-    * Create the `database` directory if it doesn't exist:
-
-        ```bash
-        mkdir -p database
-        ```
 
     * Create an empty `database.sqlite` file within the `database` directory:
 
