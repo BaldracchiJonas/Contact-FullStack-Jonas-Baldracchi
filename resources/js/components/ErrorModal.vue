@@ -10,13 +10,13 @@
     </div>
   </template>
 
-  <script setup>
+  <script setup lang="ts">
   import { defineProps, defineEmits } from 'vue';
 
-  const props = defineProps({
+  defineProps({
     isOpen: Boolean,
     errorMessage: String,
   });
 
-  const emit = defineEmits(['close']);
+  defineEmits(['close']);
   </script>

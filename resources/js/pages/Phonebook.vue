@@ -33,20 +33,26 @@
     </div>
   </template>
 
-  <script setup>
-  import { ref, computed, onMounted } from 'vue';
-  import axios from 'axios';
+  <script setup lang="ts">
+  import { ref, computed, onMounted, Ref } from 'vue';
+  import axios, { AxiosResponse } from 'axios';
   import ContactModal from '../components/ContactModal.vue';
   import ErrorModal from '../components/ErrorModal.vue';
 
-  const contacts = ref([]);
-  const searchQuery = ref('');
-  const isModalOpen = ref(false);
-  const isErrorModalOpen = ref(false);
-  const errorMessage = ref('');
-  const apiErrorMessage = ref('');
-  const isDeleteConfirmationOpen = ref(false);
-  const contactToDeleteId = ref(null);
+  interface Contact {
+    id: number;
+    name: string;
+    phone: string;
+  }
+
+  const contacts: Ref<Contact[]> = ref([]);
+  const searchQuery: Ref<string> = ref('');
+  const isModalOpen: Ref<boolean> = ref(false);
+  const isErrorModalOpen: Ref<boolean> = ref(false);
+  const errorMessage: Ref<string> = ref('');
+  const apiErrorMessage: Ref<string | null> = ref(null);
+  const isDeleteConfirmationOpen: Ref<boolean> = ref(false);
+  const contactToDeleteId: Ref<number | null> = ref(null);
 
   const filteredContacts = computed(() => {
     if (!searchQuery.value) return contacts.value;
@@ -57,22 +63,22 @@
 
   const fetchContacts = async () => {
     try {
-      const response = await axios.get('/api/contacts');
+      const response: AxiosResponse<Contact[]> = await axios.get('/api/contacts');
       contacts.value = response.data;
-    } catch (error) {
+    } catch (error: any) {
       errorMessage.value = error.message;
       isErrorModalOpen.value = true;
       apiErrorMessage.value = null;
     }
   };
 
-  const addNewContact = async (contact) => {
+  const addNewContact = async (contact: { name: string; phone: string }) => {
     try {
-      const response = await axios.post('/api/contacts', contact);
+      const response: AxiosResponse<Contact> = await axios.post('/api/contacts', contact);
       contacts.value.push(response.data);
       isModalOpen.value = false;
       apiErrorMessage.value = null;
-    } catch (error) {
+    } catch (error: any) {
       errorMessage.value = error.message;
       isErrorModalOpen.value = true;
       if (error.response && error.response.data && error.response.data.message) {
@@ -83,7 +89,7 @@
     }
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id: number) => {
     contactToDeleteId.value = id;
     isDeleteConfirmationOpen.value = true;
   };
@@ -94,7 +100,7 @@
       contacts.value = contacts.value.filter((c) => c.id !== contactToDeleteId.value);
       apiErrorMessage.value = null;
       isDeleteConfirmationOpen.value = false;
-    } catch (error) {
+    } catch (error: any) {
       errorMessage.value = error.message;
       isErrorModalOpen.value = true;
       apiErrorMessage.value = null;

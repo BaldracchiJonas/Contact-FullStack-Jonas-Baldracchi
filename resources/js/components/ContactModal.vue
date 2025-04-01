@@ -12,20 +12,22 @@
         </div>
         <div class="flex justify-end">
           <button @click="$emit('close')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg mr-2">Cancel</button>
-          <button @click="$emit('add', contact)" :disabled="!contact.name || !contact.phone" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Add</button>
+          <button @click="$emit('add', contact)" :disabled="!contact.name || !contact.phone" :class="{ 'bg-gray-400 cursor-not-allowed': !contact.name || !contact.phone }" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Add</button>
         </div>
       </div>
     </div>
   </template>
 
-  <script setup>
-  import { defineProps, defineEmits, reactive } from 'vue';
+  <script setup lang="ts">
+  import { defineProps, defineEmits, reactive, watch } from 'vue';
 
-  const props = defineProps({
-    isOpen: Boolean,
-  });
+  interface Props {
+    isOpen: boolean;
+  }
 
-  const emit = defineEmits(['close', 'add']);
+  const props = defineProps<Props>();
+
+  defineEmits(['close', 'add']);
 
   const contact = reactive({
     name: '',
@@ -34,5 +36,16 @@
 
   const formatPhoneNumber = () => {
     contact.phone = contact.phone.replace(/[^0-9\s\/\*\#\-\(\)\+]/g, '');
+  };
+
+  watch(() => props.isOpen, (newIsOpen) => {
+    if (newIsOpen) {
+      resetContact();
+    }
+  });
+
+  const resetContact = () => {
+    contact.name = '';
+    contact.phone = '';
   };
   </script>
