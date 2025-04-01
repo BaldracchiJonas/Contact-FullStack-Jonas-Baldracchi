@@ -8,8 +8,7 @@
 
         <input v-model="searchQuery" type="text" placeholder="🔍 Search by name or phone..." class="w-full border border-gray-300 p-2 rounded-lg text-gray-900 focus:ring focus:ring-blue-200 mb-4" />
 
-        <ul class="space-y-2 max-h-64 overflow-y-auto">
-          <li v-for="contact in filteredContacts" :key="contact.id" class="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+        <ul class="space-y-2 max-h-64 overflow-y-auto h-64"> <li v-for="contact in filteredContacts" :key="contact.id" class="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
             <span class="text-lg">{{ contact.name }} - {{ contact.phone }}</span>
             <button @click="confirmDelete(contact.id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition">❌ Delete</button>
           </li>
